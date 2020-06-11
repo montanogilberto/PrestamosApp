@@ -1,0 +1,57 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>{{ folder }}</ion-title>
+
+    <!-- <ion-buttons slot="end"  (click)="test()">
+      <ion-icon name="alert-circle-sharp" ></ion-icon>
+    </ion-buttons> -->
+    <!-- <ion-note slot="end">
+      <ion-icon name="alert-circle-sharp" ></ion-icon>
+    </ion-note> -->
+    <ion-tab-button slot="end" (click)="test()">
+      <ion-icon name="notifications-outline" ></ion-icon>
+    </ion-tab-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">{{ folder }}</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div id="container">
+    <strong class="capitalize">{{ folder }}</strong>
+    <p>Explore <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+  </div>
+  
+  <ion-tabs>
+    <ion-tab-bar slot="bottom">
+
+      <ion-tab-button routerLink="/Clientes">
+        <ion-icon name="home"></ion-icon>
+        <ion-label>Inicio</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button >
+        <ion-icon name="people"></ion-icon>
+        <ion-label>Clientes</ion-label>
+      </ion-tab-button>
+  
+      <ion-tab-button tab="prestamos">
+        <ion-icon name="cash-outline"></ion-icon>
+        <ion-label>Prestamos</ion-label>
+      </ion-tab-button>
+      
+      <ion-tab-button tab="pagos">
+        <ion-icon name="logo-usd"></ion-icon>
+        <ion-label>Pagos</ion-label>
+      </ion-tab-button>
+    </ion-tab-bar>
+  </ion-tabs>
+
+</ion-content>
