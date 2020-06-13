@@ -22,7 +22,7 @@
     <ion-item-sliding *ngFor="let cliente of clientesFilter">
       <ion-item lines="inset" button [routerLink]="['/clientes-detail', cliente.id]">
         <ion-avatar slot="start">
-          <ion-img src="{{cliente.urlImagen}}"></ion-img>
+          <ion-img src="{{cliente.urlImagen}}" ></ion-img>
         </ion-avatar>
         <ion-label>
           <h3>{{ cliente.nombre }} {{ cliente.nombre2 }} {{ cliente.apellido }} {{ cliente.apellido2 }}</h3>

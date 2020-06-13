@@ -21,9 +21,15 @@ export class AppComponent implements OnInit {
       title: 'Clientes',
       url: '/clientes',
       icon: 'people'
+    },
+    {
+      title: 'Cerrar Sesion',
+      url: '/login',
+      icon: 'log-out'
     }
   ];
-  public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
+
+  //public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
 
   constructor(
     private platform: Platform,

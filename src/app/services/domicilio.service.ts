@@ -14,6 +14,21 @@ export class DomicilioService {
   private domiciliosCollection: AngularFirestoreCollection<DomiciliosI>;
   private domicilios: Observable<DomiciliosI[]>;
 
+  domicilio: DomiciliosI = {
+    fraccionamiento: '',
+    municipio: '',
+    calle: '',
+    noInterior: '',
+    noExterior: '',
+    entre: '',
+    entre2: '',
+    referencia: '',
+    urlImagen: '',
+    clienteId: '',
+    codigoPostal: '',
+    }
+  
+
   constructor(private db:AngularFirestore) { }
 
   getDomicilios(clienteId: string){
@@ -35,15 +50,15 @@ export class DomicilioService {
     return this.domiciliosCollection.doc<DomiciliosI>(id).valueChanges();
   }
 
-  updateDomicilio(domicilio:DomiciliosI, id: string){
+  update(domicilio:DomiciliosI, id: string){
     return this.domiciliosCollection.doc(id).update(domicilio);
   }
   
-  addDomicilio(domicilio: DomiciliosI){
+  add(domicilio: DomiciliosI){
     return this.domiciliosCollection.add(domicilio);
   }
   
-  removeDomicilio(id: string){
+  remove(id: string){
     return this.domiciliosCollection.doc(id).delete();
   }
 

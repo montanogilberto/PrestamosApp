@@ -15,6 +15,8 @@ export interface ClientesI{
 
 export interface DomiciliosI{
     id?: string;
+    fraccionamiento: string;
+    municipio: string;
     calle: string;
     noInterior: string;
     noExterior: string;
@@ -44,7 +46,6 @@ export interface AvalI{
     celular: string;
     email: string;
     urlImagen: string;
-    noCliente: number;
     telefono: string;
     tipoIdentificacion: string;
     noidentificacion: string;

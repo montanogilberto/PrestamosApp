@@ -1,44 +1,40 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { DomiciliosI } from "../../models/task.interface";
 import { ActivatedRoute } from '@angular/router';
-import { NavController, LoadingController } from '@ionic/angular';
+import { DomicilioService } from 'src/app/services/domicilio.service';
+import { LoadingController, NavController } from '@ionic/angular';
+import { AuthService } from 'src/app/services/auth.service';
+import { DomSanitizer , SafeResourceUrl} from '@angular/platform-browser';
 import { AngularFireStorage } from "@angular/fire/storage";
 import { Observable } from 'rxjs/internal/observable';
 import { finalize } from 'rxjs/operators';
-import { AuthService } from "../../services/auth.service";
-import { Plugins, CameraResultType, CameraSource } from "@capacitor/core";
-import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
-import { DomiciliosI } from "../../models/task.interface";
-import { DomicilioService } from "../../services/domicilio.service";
 
 @Component({
-  selector: 'app-domicilios',
-  templateUrl: './domicilios.page.html',
-  styleUrls: ['./domicilios.page.scss'],
+  selector: 'app-domicilio-detail',
+  templateUrl: './domicilio-detail.page.html',
+  styleUrls: ['./domicilio-detail.page.scss'],
 })
-export class DomiciliosPage implements OnInit {
+export class DomicilioDetailPage implements OnInit {
 
   photo: SafeResourceUrl;
   @ViewChild('imageUser', { static: true }) inputImageUser: ElementRef;
   uploadPercent: Observable<number>;
   urlImagen: Observable<string>;
 
-  clienteId = null;
-  domicilios: DomiciliosI[];
-  domicilioId: string = '';
-
+  domicilioId = null;
   domicilio: DomiciliosI = {
-  fraccionamiento: '',
-  municipio: '',
-  calle: '',
-  noInterior: '',
-  noExterior: '',
-  entre: '',
-  entre2: '',
-  referencia: '',
-  urlImagen: '',
-  clienteId: '',
-  codigoPostal: '',
-  }
+    fraccionamiento: '',
+    municipio: '',
+    calle: '',
+    noInterior: '',
+    noExterior: '',
+    entre: '',
+    entre2: '',
+    referencia: '',
+    urlImagen: '',
+    clienteId: '',
+    codigoPostal: '',
+    }
 
   constructor(
     private route: ActivatedRoute,
@@ -51,9 +47,9 @@ export class DomiciliosPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.clienteId = this.route.snapshot.params['id'];
-    console.log('domicilioId1',this.clienteId);
-    if (this.clienteId) {
+    this.domicilioId = this.route.snapshot.params['id'];
+    //console.log('domicilioId',this.domicilioId);
+    if (this.domicilioId) {
       this.load();
     }
 
@@ -65,12 +61,10 @@ export class DomiciliosPage implements OnInit {
     });
     await loading.present();
 
-    this.domicilioService.getDomicilios(this.clienteId).subscribe(domicilios => {
-    this.domicilios = domicilios
-    this.domicilioId = this.domicilios[0].id;
-    console.log('DomicilioId2',this.domicilioId)
-    loading.dismiss();
-    console.log('domicilios 1',this.domicilios);
+    this.domicilioService.getDomicilio(this.domicilioId).subscribe(domicilio => {
+      loading.dismiss();
+      this.domicilio = domicilio;
+      //console.log('domicilios 2',this.domicilio);
     });
   }
 
@@ -80,10 +74,10 @@ export class DomiciliosPage implements OnInit {
     });
     await loading.present();
 
-    if (this.clienteId) {
-      this.domicilioService.update(this.domicilio, this.clienteId).then(() => {
+    if (this.domicilioId) {
+      this.domicilioService.update(this.domicilio, this.domicilioId).then(() => {
         loading.dismiss();
-        this.nav.navigateForward('/clientes-detail');
+        this.nav.navigateForward('/domicilios/' + this.domicilio.clienteId);
 
       });
     } else {
@@ -106,8 +100,8 @@ export class DomiciliosPage implements OnInit {
     }
   }
 
-  async onRemove(idCliente: string) {
-    this.domicilioService.remove(idCliente);
+  async onRemove(domicilioId: string) {
+    this.domicilioService.remove(domicilioId);
     this.nav.navigateForward('/clientes-detail');
   }
 
