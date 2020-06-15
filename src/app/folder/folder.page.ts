@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NavController, LoadingController} from '@ionic/angular';
 import { AuthService } from "../services/auth.service";
+import { AngularFireAuth } from 'angularfire2/auth';
 
 @Component({
   selector: 'app-folder',
@@ -18,7 +19,6 @@ export class FolderPage implements OnInit {
 
   ngOnInit() {
     this.folder = this.activatedRoute.snapshot.paramMap.get('id');
-    console.log(this.folder)
   }
 
   test(){

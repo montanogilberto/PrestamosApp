@@ -64,15 +64,23 @@ const routes: Routes = [
   },
   {
     path: 'domicilio-detail/:id',
+    canActivate: [AuthGuard],
     loadChildren: () => import('./pages/domicilio-detail/domicilio-detail.module').then( m => m.DomicilioDetailPageModule)
   },
   {
     path: 'aval-detail',
+    canActivate: [AuthGuard],
     loadChildren: () => import('./pages/aval-detail/aval-detail.module').then( m => m.AvalDetailPageModule)
   },
   {
     path: 'forma-pago-detail',
+    canActivate: [AuthGuard],
     loadChildren: () => import('./pages/forma-pago-detail/forma-pago-detail.module').then( m => m.FormaPagoDetailPageModule)
+  },
+  {
+    path: 'registro',
+    canActivate: [NologinGuard],
+    loadChildren: () => import('./components/registro/registro.module').then( m => m.RegistroPageModule)
   }
 ];
 

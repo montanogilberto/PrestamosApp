@@ -21,8 +21,22 @@
       </ion-item>
       <br>
 
-      <ion-button expand="full" shape="round" (click)="onSubmitLogin()">Entrar</ion-button>
+      <!-- <ion-button expand="full" shape="round" (click)="onSubmitLogin()">Entrar</ion-button> -->
+      <br>
+       <!-- <p text-center></p> -->
 
     </ion-card-content>
   </ion-card>
+  <ion-fab vertical="bottom"  horizontal="center"> 
+    <ion-fab-button (click)="onSubmitLogin()">
+      <!-- <ion-icon name="add"></ion-icon> -->
+      <ion-icon name="arrow-forward-circle"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+  <ion-fab vertical="bottom"  horizontal="end" routerLink="/registro"> 
+    <ion-fab-button >
+      <!-- <ion-icon name="add"></ion-icon> -->
+      <ion-icon name="person-add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

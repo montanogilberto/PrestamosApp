@@ -3,11 +3,14 @@ import { AngularFireAuth } from '@angular/fire/auth'
 import { Router } from '@angular/router';
 import { auth } from 'firebase';
 import { map } from 'rxjs/operators';
+import { promise } from 'protractor';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+
+  nameLogin: null;
 
   constructor(private angularFireAuth: AngularFireAuth, private router: Router) { }
 
@@ -30,5 +33,15 @@ export class AuthService {
 
   isAuth(){
     return this.angularFireAuth.authState.pipe(map(auth => auth));
+  }
+
+  register(email:string, password:string){
+
+    return new Promise ((resolve,reject)=>{
+      this.angularFireAuth.auth.createUserWithEmailAndPassword(email,password).then(res => {
+        resolve(res);
+      }).catch( err => reject(err))
+    })
+
   }
 }
