@@ -70,3 +70,10 @@ export interface PrestamosI{
     clienteId: string;
 }
 
+export interface ChatI{
+    id?: string;
+    clienteId: string;
+    uid: string;
+    descripcion: string;
+}
+

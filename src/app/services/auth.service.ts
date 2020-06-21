@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { auth } from 'firebase';
 import { map } from 'rxjs/operators';
 import { promise } from 'protractor';
+import { AngularFirestore } from "@angular/fire/firestore";
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,11 @@ export class AuthService {
 
   nameLogin: null;
 
-  constructor(private angularFireAuth: AngularFireAuth, private router: Router) { }
+  constructor(
+      private db: AngularFirestore,
+      private angularFireAuth: AngularFireAuth, 
+      private router: Router,
+      ) { }
 
   login(email: string, password: string){
 
@@ -35,10 +40,16 @@ export class AuthService {
     return this.angularFireAuth.authState.pipe(map(auth => auth));
   }
 
-  register(email:string, password:string){
+  register(email:string, password:string, name: string){
 
     return new Promise ((resolve,reject)=>{
       this.angularFireAuth.auth.createUserWithEmailAndPassword(email,password).then(res => {
+        const uid = res.user.uid;
+        console.log(uid);
+        this.db.collection('users').doc(res.user.uid).set({
+          name: name,
+          uid: uid
+        })
         resolve(res);
       }).catch( err => reject(err))
     })

@@ -1,5 +1,5 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { ClientesI, DomiciliosI } from '../models/task.interface';
+import { ClientesI, ChatI } from '../models/task.interface';
 import { ClienteService } from '../services/cliente.service';
 import { ActivatedRoute } from '@angular/router';
 import { NavController, LoadingController } from '@ionic/angular';
@@ -7,8 +7,11 @@ import { AngularFireStorage } from "@angular/fire/storage";
 import { Observable } from 'rxjs/internal/observable';
 import { finalize } from 'rxjs/operators';
 import { AuthService } from "../services/auth.service";
-import { Plugins, CameraResultType, CameraSource } from "@capacitor/core";
+import { Plugins, CameraResultType, CameraSource, Modals } from "@capacitor/core";
 import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
+import { ChatService } from "../services/chat.service";
+import { ModalController } from "@ionic/angular";
+import { ChatComponent } from "../components/chat/chat.component";
 
 @Component({
   selector: 'app-clientes-detail',
@@ -24,6 +27,8 @@ export class ClientesDetailPage implements OnInit {
   uploadPercent: Observable<number>;
   urlImagen: Observable<string>;
   public domicilios: Observable<ClientesI>;
+  public userUID: string = localStorage.getItem("userUID");
+  chats: ChatI[];
 
   cliente: ClientesI = {
     id: '',
@@ -40,18 +45,16 @@ export class ClientesDetailPage implements OnInit {
     noidentificacion: '',
   }
 
-
-  //domicilios: DomiciliosI[];
-
   constructor(private route: ActivatedRoute,
     private nav: NavController,
     private clienteService: ClienteService,
-    //private domiciliosI: DomiciliosI,
     private loadingController: LoadingController,
     private angularFireStorage: AngularFireStorage,
     private authService: AuthService,
-    private sanitizer: DomSanitizer
-
+    private sanitizer: DomSanitizer,
+    private chatService: ChatService,
+    private modal: ModalController,
+    //private chatComponent: ChatComponent
   ) { }
 
   ngOnInit() {
@@ -59,6 +62,15 @@ export class ClientesDetailPage implements OnInit {
     if (this.clienteId) {
       this.loadCliente();
     }
+  }
+
+  openChat(chat){
+    this.modal.create({
+      component: ChatComponent,
+      componentProps: {
+        name: chat.name
+      }
+    }).then((modal) => modal.present())
   }
 
   async takePicture() {
@@ -119,6 +131,19 @@ export class ClientesDetailPage implements OnInit {
   async onRemoveCliente(idCliente: string) {
     this.clienteService.removeCliente(idCliente);
     this.nav.navigateForward('/clientes');
+  }
+
+  async onGetChats(clienteId: string, userUID: string){
+    const loading = await this.loadingController.create({
+      message: 'Cargando....'
+    });
+    await loading.present();
+
+    this.chatService.getChats(this.clienteId,this.userUID).subscribe(chats => {
+      loading.dismiss();
+      this.chats = chats;
+      console.log('chat',chats);
+    });
   }
 
   onUpload(e) {

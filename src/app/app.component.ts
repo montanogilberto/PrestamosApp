@@ -12,8 +12,8 @@ import { AngularFireAuth } from 'angularfire2/auth';
 })
 export class AppComponent implements OnInit {
   private user: firebase.User;
-  userEmail: string;
   public selectedIndex = 0;
+  public userEmail: string = localStorage.getItem("userEmail");
   public appPages = [
     {
       title: 'Inicio',
@@ -57,9 +57,10 @@ export class AppComponent implements OnInit {
     }
 
     this.angularFireAuth.authState.subscribe(user => {
-      this.user = user;
-      this.userEmail = user.email;
-      console.log('user',this.userEmail);
+      localStorage.setItem('userUID',user.uid)
+      localStorage.setItem('userEmail',user.email)
     });
+
+    
   }
 }

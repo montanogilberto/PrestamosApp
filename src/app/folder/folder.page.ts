@@ -11,6 +11,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
 })
 export class FolderPage implements OnInit {
   public folder: string;
+  public userEmail: string = localStorage.getItem("userEmail");
 
   constructor(
       private activatedRoute: ActivatedRoute,

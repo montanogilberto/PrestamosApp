@@ -14,10 +14,11 @@ import { AngularFirestoreModule} from 'angularfire2/firestore';
 //import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFireStorageModule } from "@angular/fire/storage";
+import { ChatComponent } from "./components/chat/chat.component";
 
 @NgModule({
-  declarations: [AppComponent],
-  entryComponents: [],
+  declarations: [AppComponent, ChatComponent],
+  entryComponents: [ChatComponent],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
